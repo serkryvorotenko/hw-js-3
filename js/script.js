@@ -1,6 +1,4 @@
 let operation;
-let a;
-let b;
 let number1;
 let number2;
 const history = [];
@@ -18,65 +16,99 @@ do {
     && operation !== 'history');
 
     if (operation !== 'history') {
-        do {
-            a = prompt(`what is the first number?`);
-            number1 = +a;
-        } while (a === '' || +a !== number1);
+        number1 = askNumber(`what is the first number?`);
 
         if (operation !== 'cos' && operation !== 'sin') {
-            do {
-                b = prompt('what is the second number?');
-                number2 = +b;
-            } while (b === '' || +b !== number2);
+            number2 = askNumber(`what is the second number?`);
         }
     }
 
-    let result;
-    let operationName;
     switch (operation) {
         case '+':
-            result = number1 + number2;
-            operationName = 'plus';
+            plus(number1, number2);
             break;
         case '-':
-            result = number1 - number2;
-            operationName = 'minus';
+            minus(number1, number2);
             break;
         case `*`:
-            result = number1 * number2;
-            operationName = 'multiplication';
+            multiplication(number1, number2);
             break;
         case `/`:
-            result = number1 / number2;
-            operationName = 'division';
+            division(number1, number2);
             break;
         case `pow`:
-            result = number1 ** number2;
-            operationName = 'pow';
+            pow(number1, number2);
             break;
         case `sin`:
-            result = Math.sin(number1);
-            operationName = 'sin';
+            sin(number1);
             break;
         case `cos`:
-            result = Math.cos(number1);
-            operationName = 'cos';
+            cos(number1);
+            break;
+        case 'history':
+            showHistory();
             break;
     }
-
-    const message = 'Operation ' + operationName + ' finished with result = ' + result;
-
-    if (operation !== 'history') {
-        console.log(message);
-        history[history.length] = message;
-    } else {
-        console.log('Your history');
-        let i = 0;
-        while (i < history.length) {
-            console.log(i + 1 + '. ' + history[i]);
-            i++;
-        }
-    }
-
 }
 while (confirm('Do you want to perform a new operation?')) ;
+
+function plus(number1, number2) {
+    const result = number1 + number2;
+    showMessage('+', result, 'plus');
+}
+
+function minus(number1, number2) {
+    const result = number1 - number2;
+    showMessage('-', result, 'minus');
+}
+
+function multiplication(number1, number2) {
+    const result = number1 * number2;
+    showMessage('*', result, 'multiplication');
+}
+
+function division(number1, number2) {
+    const result = number1 / number2;
+    showMessage('/', result, 'division');
+}
+
+function pow(number1, number2) {
+    const result = number1 ** number2;
+    showMessage('pow', result, 'pow');
+}
+
+function sin(number1) {
+    const result = Math.sin(number1);
+    showMessage('sin', result, 'sin');
+}
+
+function cos(number1) {
+    const result = Math.cos(number1);
+    showMessage('cos', result, 'cos');
+}
+
+function showMessage(operation, result, operationName) {
+    const message = 'Operation ' + operationName + ' finished with result = ' + result;
+    console.log(message);
+    history[history.length] = message;
+}
+
+function showHistory() {
+    console.log('Your history');
+    let i = 0;
+    while (i < history.length) {
+        console.log(i + 1 + '. ' + history[i]);
+        i++;
+    }
+}
+
+function askNumber(massage) {
+    let a;
+    let number1;
+    do {
+        a = prompt(massage);
+        number1 = +a;
+    } while (a === '' || +a !== number1);
+    return number1;
+}
+
